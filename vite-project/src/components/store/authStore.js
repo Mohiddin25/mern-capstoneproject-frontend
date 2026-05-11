@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import axios from 'axios'
+import axios from "../../api/axiosInstance";
 export const useAuth = create((set) => ({
   currentUser: null,
   loading: false,
@@ -11,7 +11,7 @@ export const useAuth = create((set) => ({
       //set loading true
       set({ loading: true, error: null });
       //make api call
-      let res = await axios.post("http://localhost:3000/auth/login", userCredObj, { withCredentials: true });
+      let res = await axios.post("/auth/login", userCredObj);
       // console.log("res is ", res);
       //update state
       set({
@@ -35,10 +35,7 @@ export const useAuth = create((set) => ({
     try {
       set({ loading: true, error: null });
 
-      await axios.get(
-        "http://localhost:3000/auth/logout",
-        { withCredentials: true }
-      );
+      await axios.get("/auth/logout");
 
       set({
         loading: false,

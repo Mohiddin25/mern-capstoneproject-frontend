@@ -1,6 +1,6 @@
 import { useParams, useLocation, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../api/axiosInstance.js";
 import { useAuth } from "../components/store/authStore.js";
 import {
   articlePageWrapper,
@@ -48,7 +48,7 @@ function ArticleByID() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user-api/article/${id}`, { withCredentials: true });
+        const res = await axios.get(`/user-api/article/${id}`);
 
         setArticle(res.data.payload);
       } catch (err) {
@@ -78,9 +78,8 @@ function ArticleByID() {
 
     try {
       const res = await axios.patch(
-        `${import.meta.env.VITE_BACKEND_URL}/author-api/articles`,
-        {articleId: id, isArticleActive: newStatus },
-        { withCredentials: true },
+        `/author-api/articles`,
+        { articleId: id, isArticleActive: newStatus },
       );
 
       console.log("SUCCESS:", res.data);
@@ -111,7 +110,7 @@ function ArticleByID() {
     //add artcileId
     commentObj.articleId = article._id;
     console.log(commentObj);
-    let res = await axios.put("http://localhost:4000/user-api/articles", commentObj, { withCredentials: true });
+    let res = await axios.put("/user-api/articles", commentObj);
     if (res.status === 200) {
       // toast.success(res.data.message);
       setArticle(res.data.payload);
