@@ -31,10 +31,16 @@ function UserProfile() {
         let res = await axios.get("/user-api/articles");
         //update articles state
         if(res.status===200){
-          setArticles((await res).data.payload)
+          setArticles(res.data.payload)
         }
       } catch (err) {
-        setError(err.response?.data?.error || "Something went wrong");
+        console.log(err);
+
+      setError(
+        err.response?.data?.message ||
+        err.message ||
+        "Something went wrong"
+      );
       } finally {
         setLoading(false);
       }
